@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Analytics - Placement Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                SP
+            </div>
+
+            <div>
+                <h2>Placement</h2>
+                <span>Analytics Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="/" class="nav-item">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+            <a href="/students" class="nav-item">
+                <span>👨‍🎓</span>
+                Students
+            </a>
+
+            <a href="/companies" class="nav-item">
+                <span>🏢</span>
+                Companies
+            </a>
+
+            <a href="/applications" class="nav-item">
+                <span>📝</span>
+                Applications
+            </a>
+
+            <a href="/interviews" class="nav-item">
+                <span>🎯</span>
+                Interviews
+            </a>
+
+            <a href="/placements" class="nav-item">
+                <span>💼</span>
+                Placements
+            </a>
+
+            <a href="/analytics"
+               class="nav-item active">
+
+                <span>📈</span>
+                Analytics
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <small>ADC Project</small>
+
+            <strong>
+                CCSDS0302
+            </strong>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Placement Analytics</h1>
+
+                <p>
+                    Data-driven placement performance analysis
+                </p>
+
+            </div>
+
+
+            <div class="user-box">
+
+                <div class="avatar">
+                    N
+                </div>
+
+                <div>
+
+                    <strong>
+                        Placement Admin
+                    </strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- KPI CARDS -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👨‍🎓
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Students
+                    </span>
+
+                    <strong>
+                        {{ total_students }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📝
+                </div>
+
+                <div>
+
+                    <span>
+                        Applications
+                    </span>
+
+                    <strong>
+                        {{ total_applications }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <div>
+
+                    <span>
+                        Interviews
+                    </span>
+
+                    <strong>
+                        {{ total_interviews }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💼
+                </div>
+
+                <div>
+
+                    <span>
+                        Placements
+                    </span>
+
+                    <strong>
+                        {{ total_placements }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <span>
+                        Placement Rate
+                    </span>
+
+                    <strong>
+                        {{ placement_rate }}%
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+                <div>
+
+                    <span>
+                        Average Package
+                    </span>
+
+                    <strong>
+                        ₹{{ average_package }} LPA
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🚀
+                </div>
+
+                <div>
+
+                    <span>
+                        Highest Package
+                    </span>
+
+                    <strong>
+                        ₹{{ highest_package }} LPA
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🏢
+                </div>
+
+                <div>
+
+                    <span>
+                        Companies
+                    </span>
+
+                    <strong>
+                        {{ total_companies }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- CHART ROW 1 -->
+
+        <section class="chart-grid">
+
+
+            <!-- BRANCH CHART -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <h3>
+                        Branch-wise Placements
+                    </h3>
+
+                    <p>
+                        Number of students placed by branch
+                    </p>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="branchChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPANY CHART -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <h3>
+                        Company-wise Placements
+                    </h3>
+
+                    <p>
+                        Students placed by recruiting company
+                    </p>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="companyChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- CHART ROW 2 -->
+
+        <section class="chart-grid">
+
+
+            <!-- FUNNEL -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <h3>
+                        Recruitment Funnel
+                    </h3>
+
+                    <p>
+                        Student recruitment journey
+                    </p>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="funnelChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- PACKAGE -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <h3>
+                        Package Distribution
+                    </h3>
+
+                    <p>
+                        Distribution of placed students by package
+                    </p>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="packageChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- CHART ROW 3 -->
+
+        <section class="chart-grid">
+
+
+            <!-- INTERVIEW RESULTS -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <h3>
+                        Interview Results
+                    </h3>
+
+                    <p>
+                        Distribution of interview outcomes
+                    </p>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="interviewChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLICATION STATUS -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <h3>
+                        Application Status
+                    </h3>
+
+                    <p>
+                        Application pipeline status
+                    </p>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="applicationChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- COMPANY PACKAGE TABLE -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Company Package Analysis
+                    </h3>
+
+                    <p>
+                        Package statistics by recruiting company
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Company
+                        </th>
+
+                        <th>
+                            Placements
+                        </th>
+
+                        <th>
+                            Average Package
+                        </th>
+
+                        <th>
+                            Highest Package
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for company in company_package_data %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ company.company_name }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ company.placements }}
+                        </td>
+
+                        <td>
+                            ₹{{ company.average_package }} LPA
+                        </td>
+
+                        <td>
+                            <strong>
+                                ₹{{ company.highest_package }} LPA
+                            </strong>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <footer>
+
+            Student Placement Analytics Platform
+            • Advances in Computing
+            • CCSDS0302
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =====================================================
+     CHART JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    // ---------------------------------------------
+    // BRANCH CHART
+    // ---------------------------------------------
+
+    const branchLabels = [
+        {% for branch in branch_data %}
+            "{{ branch.branch }}",
+        {% endfor %}
+    ];
+
+    const branchValues = [
+        {% for branch in branch_data %}
+            {{ branch.placed_students }},
+        {% endfor %}
+    ];
+
+
+    new Chart(
+        document.getElementById("branchChart"),
+        {
+            type: "bar",
+
+            data: {
+
+                labels: branchLabels,
+
+                datasets: [{
+
+                    label: "Students Placed",
+
+                    data: branchValues,
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    // ---------------------------------------------
+    // COMPANY CHART
+    // ---------------------------------------------
+
+    const companyLabels = [
+        {% for company in company_data %}
+            "{{ company.company_name }}",
+        {% endfor %}
+    ];
+
+    const companyValues = [
+        {% for company in company_data %}
+            {{ company.placed_students }},
+        {% endfor %}
+    ];
+
+
+    new Chart(
+        document.getElementById("companyChart"),
+        {
+            type: "bar",
+
+            data: {
+
+                labels: companyLabels,
+
+                datasets: [{
+
+                    label: "Students Placed",
+
+                    data: companyValues,
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        ticks: {
+
+                            maxRotation: 60,
+
+                            minRotation: 30
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    // ---------------------------------------------
+    // RECRUITMENT FUNNEL
+    // ---------------------------------------------
+
+    new Chart(
+        document.getElementById("funnelChart"),
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+                    "Students",
+                    "Applications",
+                    "Interviews",
+                    "Placements"
+                ],
+
+                datasets: [{
+
+                    label: "Count",
+
+                    data: [
+                        {{ recruitment_funnel.students }},
+                        {{ recruitment_funnel.applications }},
+                        {{ recruitment_funnel.interviews }},
+                        {{ recruitment_funnel.placements }}
+                    ],
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    // ---------------------------------------------
+    // PACKAGE DISTRIBUTION
+    // ---------------------------------------------
+
+    const packageLabels = [
+
+        {% for package in package_distribution %}
+
+            "{{ package.package_range }}",
+
+        {% endfor %}
+
+    ];
+
+
+    const packageValues = [
+
+        {% for package in package_distribution %}
+
+            {{ package.total }},
+
+        {% endfor %}
+
+    ];
+
+
+    new Chart(
+        document.getElementById("packageChart"),
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: packageLabels,
+
+                datasets: [{
+
+                    data: packageValues,
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            }
+
+        }
+    );
+
+
+
+    // ---------------------------------------------
+    // INTERVIEW RESULTS
+    // ---------------------------------------------
+
+    const interviewLabels = [
+
+        {% for item in interview_results %}
+
+            "{{ item.result }}",
+
+        {% endfor %}
+
+    ];
+
+
+    const interviewValues = [
+
+        {% for item in interview_results %}
+
+            {{ item.total }},
+
+        {% endfor %}
+
+    ];
+
+
+    new Chart(
+        document.getElementById("interviewChart"),
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: interviewLabels,
+
+                datasets: [{
+
+                    data: interviewValues,
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            }
+
+        }
+    );
+
+
+
+    // ---------------------------------------------
+    // APPLICATION STATUS
+    // ---------------------------------------------
+
+    const applicationLabels = [
+
+        {% for item in application_status %}
+
+            "{{ item.status }}",
+
+        {% endfor %}
+
+    ];
+
+
+    const applicationValues = [
+
+        {% for item in application_status %}
+
+            {{ item.total }},
+
+        {% endfor %}
+
+    ];
+
+
+    new Chart(
+        document.getElementById("applicationChart"),
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: applicationLabels,
+
+                datasets: [{
+
+                    data: applicationValues,
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

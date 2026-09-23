@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Placements - Placement Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                SP
+            </div>
+
+            <div>
+                <h2>Placement</h2>
+                <span>Analytics Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="/" class="nav-item">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+            <a href="/students" class="nav-item">
+                <span>👨‍🎓</span>
+                Students
+            </a>
+
+            <a href="/companies" class="nav-item">
+                <span>🏢</span>
+                Companies
+            </a>
+
+            <a href="/applications" class="nav-item">
+                <span>📝</span>
+                Applications
+            </a>
+
+            <a href="/interviews" class="nav-item">
+                <span>🎯</span>
+                Interviews
+            </a>
+
+            <a href="/placements"
+               class="nav-item active">
+
+                <span>💼</span>
+                Placements
+
+            </a>
+
+            <a href="/analytics" class="nav-item">
+                <span>📈</span>
+                Analytics
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <small>ADC Project</small>
+
+            <strong>
+                CCSDS0302
+            </strong>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Placements</h1>
+
+                <p>
+                    Successful student placements and package details
+                </p>
+
+            </div>
+
+
+            <div class="user-box">
+
+                <div class="avatar">
+                    N
+                </div>
+
+                <div>
+
+                    <strong>
+                        Placement Admin
+                    </strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- FILTERS -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Placement Search & Filters
+                    </h3>
+
+                    <p>
+                        Search by student, roll number or company
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form method="GET"
+                  action="/placements"
+                  class="filters">
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Student, Roll No. or Company"
+                        value="{{ search }}"
+                    >
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Branch
+                    </label>
+
+                    <select name="branch">
+
+                        <option value="">
+                            All Branches
+                        </option>
+
+                        {% for item in branches %}
+
+                        <option
+                            value="{{ item.branch }}"
+
+                            {% if selected_branch == item.branch %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ item.branch }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-buttons">
+
+                    <button type="submit">
+                        Search
+                    </button>
+
+                    <a href="/placements">
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- PLACEMENT TABLE -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Placement Records
+                    </h3>
+
+                    <p>
+                        {{ placements|length }}
+                        placements found
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Placement ID
+                        </th>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Roll No.
+                        </th>
+
+                        <th>
+                            Branch
+                        </th>
+
+                        <th>
+                            Batch
+                        </th>
+
+                        <th>
+                            Company
+                        </th>
+
+                        <th>
+                            Job Role
+                        </th>
+
+                        <th>
+                            Package
+                        </th>
+
+                        <th>
+                            Placement Date
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for placement in placements %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                #{{ placement.placement_id }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ placement.student_name }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ placement.roll_no }}
+                        </td>
+
+
+                        <td>
+                            {{ placement.branch }}
+                        </td>
+
+
+                        <td>
+                            {{ placement.batch }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ placement.company_name }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ placement.job_role }}
+                        </td>
+
+
+                        <td>
+
+                            <strong class="package">
+                                ₹{{ placement.package_lpa }} LPA
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ placement.placement_date }}
+                        </td>
+
+                    </tr>
+
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="9"
+                            style="text-align:center; padding:30px;">
+
+                            No placements found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <footer>
+
+            Student Placement Analytics Platform
+            • Advances in Computing
+            • CCSDS0302
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

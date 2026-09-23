@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Placement Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">SP</div>
+
+            <div>
+                <h2>Placement</h2>
+                <span>Analytics Platform</span>
+            </div>
+        </div>
+
+        <nav>
+
+            <a href="/" class="nav-item active">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+            <a href="/students" class="nav-item">
+                <span>👨‍🎓</span>
+                Students
+            </a>
+
+            <a href="/companies" class="nav-item">
+                <span>🏢</span>
+                Companies
+            </a>
+
+            <a href="/applications" class="nav-item">
+                <span>📝</span>
+                Applications
+            </a>
+
+            <a href="/interviews" class="nav-item">
+                <span>🎯</span>
+                Interviews
+            </a>
+
+            <a href="/placements" class="nav-item">
+                <span>💼</span>
+                Placements
+            </a>
+
+            <a href="/analytics" class="nav-item">
+                <span>📈</span>
+                Analytics
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <small>ADC Project</small>
+            <strong>CCSDS0302</strong>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Student Placement Analytics</h1>
+                <p>Placement performance overview</p>
+            </div>
+
+            <div class="user-box">
+                <div class="avatar">N</div>
+
+                <div>
+                    <strong>Placement Admin</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- KPI CARDS -->
+
+        <section class="cards">
+
+            <div class="card">
+                <div class="card-icon">👨‍🎓</div>
+
+                <div>
+                    <p>Total Students</p>
+                    <h2>{{ total_students }}</h2>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">🏢</div>
+
+                <div>
+                    <p>Companies</p>
+                    <h2>{{ total_companies }}</h2>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">📝</div>
+
+                <div>
+                    <p>Applications</p>
+                    <h2>{{ total_applications }}</h2>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">💼</div>
+
+                <div>
+                    <p>Placed Students</p>
+                    <h2>{{ total_placements }}</h2>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+
+                <div>
+                    <p>Placement Rate</p>
+                    <h2>{{ placement_rate }}%</h2>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">💰</div>
+
+                <div>
+                    <p>Average Package</p>
+                    <h2>₹{{ average_package }} LPA</h2>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-icon">🚀</div>
+
+                <div>
+                    <p>Highest Package</p>
+                    <h2>₹{{ highest_package }} LPA</h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- CHARTS -->
+
+        <section class="chart-grid">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Company-wise Placements</h3>
+                        <p>Number of students placed</p>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="companyChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Branch-wise Placement</h3>
+                        <p>Placed students by branch</p>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="branchChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PIPELINE -->
+
+        <section class="panel pipeline-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <h3>Recruitment Pipeline</h3>
+                    <p>Application status distribution</p>
+                </div>
+
+            </div>
+
+            <div class="pipeline">
+
+                {% for item in application_data %}
+
+                <div class="pipeline-item">
+
+                    <div class="pipeline-number">
+                        {{ item.total }}
+                    </div>
+
+                    <div>
+                        <strong>{{ item.status }}</strong>
+                        <span>Applications</span>
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- RECENT PLACEMENTS -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <h3>Recent Placements</h3>
+                    <p>Latest placement records</p>
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Student</th>
+                        <th>Branch</th>
+                        <th>Company</th>
+                        <th>Package</th>
+                        <th>Date</th>
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for placement in recent_placements %}
+
+                    <tr>
+
+                        <td>
+                            <strong>{{ placement.name }}</strong>
+                        </td>
+
+                        <td>
+                            {{ placement.branch }}
+                        </td>
+
+                        <td>
+                            {{ placement.company_name }}
+                        </td>
+
+                        <td>
+                            <span class="package">
+                                ₹{{ placement.package_lpa }} LPA
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ placement.placement_date }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            Student Placement Analytics Platform
+            • Advances in Computing
+            • CCSDS0302
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- CHART JAVASCRIPT -->
+
+<script>
+
+    // -----------------------------
+    // COMPANY CHART
+    // -----------------------------
+
+    const companyLabels = [
+        {% for company in company_data %}
+            "{{ company.company_name }}",
+        {% endfor %}
+    ];
+
+    const companyValues = [
+        {% for company in company_data %}
+            {{ company.placed_students }},
+        {% endfor %}
+    ];
+
+
+    new Chart(
+        document.getElementById("companyChart"),
+        {
+            type: "bar",
+
+            data: {
+                labels: companyLabels,
+
+                datasets: [{
+                    label: "Students Placed",
+                    data: companyValues,
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+    );
+
+
+    // -----------------------------
+    // BRANCH CHART
+    // -----------------------------
+
+    const branchLabels = [
+        {% for branch in branch_data %}
+            "{{ branch.branch }}",
+        {% endfor %}
+    ];
+
+    const branchValues = [
+        {% for branch in branch_data %}
+            {{ branch.placed_students }},
+        {% endfor %}
+    ];
+
+
+    new Chart(
+        document.getElementById("branchChart"),
+        {
+            type: "doughnut",
+
+            data: {
+                labels: branchLabels,
+
+                datasets: [{
+                    data: branchValues,
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        }
+    );
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Students - Placement Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                SP
+            </div>
+
+            <div>
+                <h2>Placement</h2>
+                <span>Analytics Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="/" class="nav-item">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+            <a href="/students"
+               class="nav-item active">
+
+                <span>👨‍🎓</span>
+                Students
+
+            </a>
+
+            <a href="/companies" class="nav-item">
+                <span>🏢</span>
+                Companies
+            </a>
+
+            <a href="/applications" class="nav-item">
+                <span>📝</span>
+                Applications
+            </a>
+
+            <a href="/interviews" class="nav-item">
+                <span>🎯</span>
+                Interviews
+            </a>
+
+            <a href="/placements" class="nav-item">
+                <span>💼</span>
+                Placements
+            </a>
+
+            <a href="/analytics" class="nav-item">
+                <span>📈</span>
+                Analytics
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <small>ADC Project</small>
+
+            <strong>
+                CCSDS0302
+            </strong>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Students</h1>
+
+                <p>
+                    Student records and placement status
+                </p>
+
+            </div>
+
+
+            <div class="user-box">
+
+                <div class="avatar">
+                    N
+                </div>
+
+                <div>
+
+                    <strong>
+                        Placement Admin
+                    </strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- FILTER PANEL -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Student Search & Filters
+                    </h3>
+
+                    <p>
+                        Search students and filter placement records
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form method="GET"
+                  action="/students"
+                  class="filters">
+
+
+                <!-- SEARCH -->
+
+                <div class="filter-group">
+
+                    <label>
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Name or Roll Number"
+                        value="{{ search }}"
+                    >
+
+                </div>
+
+
+                <!-- BRANCH -->
+
+                <div class="filter-group">
+
+                    <label>
+                        Branch
+                    </label>
+
+                    <select name="branch">
+
+                        <option value="">
+                            All Branches
+                        </option>
+
+                        {% for item in branches %}
+
+                        <option
+                            value="{{ item.branch }}"
+                            {% if selected_branch == item.branch %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ item.branch }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="filter-group">
+
+                    <label>
+                        Placement Status
+                    </label>
+
+                    <select name="status">
+
+                        <option value="">
+                            All Students
+                        </option>
+
+                        <option
+                            value="Placed"
+                            {% if selected_status == "Placed" %}
+                                selected
+                            {% endif %}
+                        >
+                            Placed
+                        </option>
+
+                        <option
+                            value="Not Placed"
+                            {% if selected_status == "Not Placed" %}
+                                selected
+                            {% endif %}
+                        >
+                            Not Placed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <div class="filter-buttons">
+
+                    <button type="submit">
+                        Search
+                    </button>
+
+                    <a href="/students">
+                        Reset
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+
+        <!-- STUDENT TABLE -->
+
+        <section class="panel">
+
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Student Records
+                    </h3>
+
+                    <p>
+                        {{ students|length }}
+                        records found
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Roll No.
+                        </th>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Branch
+                        </th>
+
+                        <th>
+                            Batch
+                        </th>
+
+                        <th>
+                            CGPA
+                        </th>
+
+                        <th>
+                            Backlogs
+                        </th>
+
+                        <th>
+                            Placement Status
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for student in students %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                {{ student.roll_no }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ student.name }}
+                            </strong>
+
+                            <br>
+
+                            <small>
+                                {{ student.email }}
+                            </small>
+
+                        </td>
+
+
+                        <td>
+                            {{ student.branch }}
+                        </td>
+
+
+                        <td>
+                            {{ student.batch }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ student.cgpa }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ student.backlogs }}
+                        </td>
+
+
+                        <td>
+
+                            {% if student.placement_status == "Placed" %}
+
+                                <span class="status-badge placed">
+                                    Placed
+                                </span>
+
+                            {% else %}
+
+                                <span class="status-badge not-placed">
+                                    Not Placed
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="7"
+                            style="text-align:center; padding:30px;">
+
+                            No students found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            Student Placement Analytics Platform
+            • Advances in Computing
+            • CCSDS0302
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

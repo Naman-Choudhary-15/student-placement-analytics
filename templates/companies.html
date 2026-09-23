@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Companies - Placement Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                SP
+            </div>
+
+            <div>
+                <h2>Placement</h2>
+                <span>Analytics Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="/" class="nav-item">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+
+            <a href="/students" class="nav-item">
+                <span>👨‍🎓</span>
+                Students
+            </a>
+
+
+            <a href="/companies"
+               class="nav-item active">
+
+                <span>🏢</span>
+                Companies
+
+            </a>
+
+
+            <a href="/applications" class="nav-item">
+                <span>📝</span>
+                Applications
+            </a>
+
+
+            <a href="/interviews" class="nav-item">
+                <span>🎯</span>
+                Interviews
+            </a>
+
+
+            <a href="/placements" class="nav-item">
+                <span>💼</span>
+                Placements
+            </a>
+
+
+            <a href="/analytics" class="nav-item">
+                <span>📈</span>
+                Analytics
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <small>ADC Project</small>
+
+            <strong>
+                CCSDS0302
+            </strong>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Companies</h1>
+
+                <p>
+                    Companies participating in campus recruitment
+                </p>
+
+            </div>
+
+
+            <div class="user-box">
+
+                <div class="avatar">
+                    N
+                </div>
+
+                <div>
+
+                    <strong>
+                        Placement Admin
+                    </strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- FILTERS -->
+
+        <section class="panel">
+
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Company Search & Filters
+                    </h3>
+
+                    <p>
+                        Search companies or filter by industry
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <form method="GET"
+                  action="/companies"
+                  class="filters">
+
+
+                <!-- SEARCH -->
+
+                <div class="filter-group">
+
+                    <label>
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Company or Location"
+                        value="{{ search }}"
+                    >
+
+                </div>
+
+
+
+                <!-- INDUSTRY -->
+
+                <div class="filter-group">
+
+                    <label>
+                        Industry
+                    </label>
+
+
+                    <select name="industry">
+
+                        <option value="">
+                            All Industries
+                        </option>
+
+
+                        {% for item in industries %}
+
+                        <option
+                            value="{{ item.industry }}"
+
+                            {% if selected_industry == item.industry %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ item.industry }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="filter-buttons">
+
+                    <button type="submit">
+                        Search
+                    </button>
+
+
+                    <a href="/companies">
+                        Reset
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+
+
+        <!-- COMPANY TABLE -->
+
+        <section class="panel">
+
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Company Records
+                    </h3>
+
+                    <p>
+                        {{ companies|length }}
+                        companies found
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="table-container">
+
+                <table>
+
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Company
+                        </th>
+
+                        <th>
+                            Industry
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Job Role
+                        </th>
+
+                        <th>
+                            Package
+                        </th>
+
+                        <th>
+                            Min CGPA
+                        </th>
+
+                        <th>
+                            Students Placed
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                    {% for company in companies %}
+
+                    <tr>
+
+
+                        <!-- COMPANY -->
+
+                        <td>
+
+                            <strong>
+                                {{ company.company_name }}
+                            </strong>
+
+                        </td>
+
+
+
+                        <!-- INDUSTRY -->
+
+                        <td>
+
+                            <span class="company-industry">
+                                {{ company.industry }}
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- LOCATION -->
+
+                        <td>
+                            {{ company.location }}
+                        </td>
+
+
+
+                        <!-- ROLE -->
+
+                        <td>
+                            {{ company.job_role }}
+                        </td>
+
+
+
+                        <!-- PACKAGE -->
+
+                        <td>
+
+                            <strong class="package">
+                                ₹{{ company.package_lpa }} LPA
+                            </strong>
+
+                        </td>
+
+
+
+                        <!-- CGPA -->
+
+                        <td>
+
+                            <span class="cgpa-badge">
+                                {{ company.min_cgpa }}
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- PLACED -->
+
+                        <td>
+
+                            <strong>
+                                {{ company.placed_students }}
+                            </strong>
+
+                        </td>
+
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            style="text-align:center; padding:30px;"
+                        >
+
+                            No companies found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <footer>
+
+            Student Placement Analytics Platform
+            • Advances in Computing
+            • CCSDS0302
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

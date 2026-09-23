@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Applications - Placement Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                SP
+            </div>
+
+            <div>
+                <h2>Placement</h2>
+                <span>Analytics Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="/" class="nav-item">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+
+            <a href="/students" class="nav-item">
+                <span>👨‍🎓</span>
+                Students
+            </a>
+
+
+            <a href="/companies" class="nav-item">
+                <span>🏢</span>
+                Companies
+            </a>
+
+
+            <a href="/applications"
+               class="nav-item active">
+
+                <span>📝</span>
+                Applications
+
+            </a>
+
+
+            <a href="/interviews" class="nav-item">
+                <span>🎯</span>
+                Interviews
+            </a>
+
+
+            <a href="/placements" class="nav-item">
+                <span>💼</span>
+                Placements
+            </a>
+
+
+            <a href="/analytics" class="nav-item">
+                <span>📈</span>
+                Analytics
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <small>ADC Project</small>
+
+            <strong>
+                CCSDS0302
+            </strong>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Applications</h1>
+
+                <p>
+                    Student applications and recruitment pipeline
+                </p>
+
+            </div>
+
+
+            <div class="user-box">
+
+                <div class="avatar">
+                    N
+                </div>
+
+                <div>
+
+                    <strong>
+                        Placement Admin
+                    </strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- FILTERS -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Application Search & Filters
+                    </h3>
+
+                    <p>
+                        Search by student, roll number or company
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form method="GET"
+                  action="/applications"
+                  class="filters">
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Student, Roll No. or Company"
+                        value="{{ search }}"
+                    >
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Application Status
+                    </label>
+
+                    <select name="status">
+
+                        <option value="">
+                            All Statuses
+                        </option>
+
+
+                        {% for item in statuses %}
+
+                        <option
+                            value="{{ item.status }}"
+
+                            {% if selected_status == item.status %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ item.status }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-buttons">
+
+                    <button type="submit">
+                        Search
+                    </button>
+
+                    <a href="/applications">
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- APPLICATION TABLE -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        Application Records
+                    </h3>
+
+                    <p>
+                        {{ applications|length }}
+                        applications found
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Application ID
+                        </th>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Roll No.
+                        </th>
+
+                        <th>
+                            Branch
+                        </th>
+
+                        <th>
+                            Company
+                        </th>
+
+                        <th>
+                            Job Role
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for application in applications %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                #{{ application.application_id }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ application.student_name }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ application.roll_no }}
+                        </td>
+
+
+                        <td>
+                            {{ application.branch }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ application.company_name }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ application.job_role }}
+                        </td>
+
+
+                        <td>
+
+                            {% set app_status =
+                            application.status|string|lower %}
+
+
+                            {% if app_status in
+                            ['selected', 'shortlisted', 'accepted'] %}
+
+                                <span class="status-badge placed">
+                                    {{ application.status }}
+                                </span>
+
+                            {% elif app_status in
+                            ['rejected', 'not selected'] %}
+
+                                <span class="status-badge rejected">
+                                    {{ application.status }}
+                                </span>
+
+                            {% else %}
+
+                                <span class="status-badge application-status">
+                                    {{ application.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="7"
+                            style="text-align:center; padding:30px;">
+
+                            No applications found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <footer>
+
+            Student Placement Analytics Platform
+            • Advances in Computing
+            • CCSDS0302
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
