@@ -1,286 +1,324 @@
-Student Placement Analytics Platform
+<div align="center">
 
-A web-based Student Placement Analytics Platform developed as an
-Advances in Computing (ADC) project. The system manages student
-placement records and converts them into useful placement statistics and
-visual analytics.
+# 🎓 Student Placement Analytics Platform
 
-Project Information
+### A data-driven web application for managing, monitoring and analyzing student placement activities.
 
-Item                     Details
+<p>
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11">
+  <img src="https://img.shields.io/badge/Flask-3.1.2-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
+  <img src="https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/JavaScript-Chart.js-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
+  <img src="https://img.shields.io/badge/Status-Working%20Prototype-2ea44f?style=for-the-badge" alt="Project Status">
+</p>
 
-Project Title            Student Placement Analytics Platform
-Subject                  Advances in Computing (ADC)
-Course Code              CCSDS0302
-Domain / Industry Area   Quality Education
-SDG Alignment            SDG 4 -- Quality Education
-Backend                  Python + Flask
-Database                 SQLite
-Frontend                 HTML, CSS, JavaScript
-Charts                   Chart.js
+**Advances in Computing (ADC) Project · CCSDS0302 · Quality Education**
 
-Overview
+</div>
 
-The Student Placement Analytics Platform is designed to provide a
-centralized system for managing and analyzing placement-related
-information.
+---
 
-The platform maintains information about:
+## 📌 Project at a Glance
 
-Students
+The **Student Placement Analytics Platform** is a Flask-based web application that brings student placement information into one centralized system.
 
-Recruiting companies
+It manages the recruitment journey from:
 
-Student applications
+**Student → Application → Interview → Placement**
 
-Interviews
+and converts the stored data into useful KPIs, charts and placement analytics for the placement administration.
 
-Placements
+### 📊 Current Demonstration Dataset
 
-Skills
+| Metric | Value |
+|---|---:|
+| 👨‍🎓 Students | **300** |
+| 🏢 Companies | **20** |
+| 🛠️ Skills | **15** |
+| 📝 Applications | **1,041** |
+| 🎯 Interviews | **687** |
+| 💼 Placements | **76** |
+| 📈 Placement Rate | **25.33%** |
+| 💰 Average Package | **₹8.11 LPA** |
+| 🚀 Highest Package | **₹24.6 LPA** |
 
-Placement analytics
+> The values above come from the project's seeded demonstration dataset and can be recreated using `seed_data.py`.
+
+---
 
-The system provides an administrative dashboard where placement data can
-be searched, filtered, monitored, and analyzed through charts and key
-performance indicators.
+## 🎯 Problem Statement
 
-Objectives
+Placement information is often maintained across multiple records, spreadsheets or disconnected systems. This makes it difficult to obtain a quick and consolidated view of:
 
-Maintain student placement records in a structured relational
-database.
+- student placement status
+- company participation
+- application progress
+- interview outcomes
+- branch-wise placement performance
+- package statistics
+- overall recruitment progress
 
-Manage company and recruitment information.
+This project addresses that problem by providing a **single web-based platform** for placement record management and analytics.
 
-Track student applications and interview progress.
+---
 
-Maintain final placement details such as company, role, package, and
-placement date.
+## 💡 Proposed Solution
 
-Calculate important placement metrics.
+The platform combines:
 
-Provide branch-wise and company-wise placement analysis.
+- **Relational data management** using SQLite
+- **Backend processing** using Python and Flask
+- **Interactive web pages** using HTML, CSS and JavaScript
+- **Data visualization** using Chart.js
+- **Analytics queries** to calculate placement KPIs and recruitment insights
 
-Present placement information through an easy-to-use web dashboard.
+The result is an administrative dashboard that allows placement data to be explored instead of simply stored.
 
-Main Modules
+---
+
+## ✨ Key Features
 
-1. Dashboard
+### 📊 Dashboard
+- Total students
+- Total companies
+- Applications
+- Interviews
+- Placements
+- Placement rate
+- Average package
+- Highest package
+- Company-wise placement chart
+- Branch-wise placement chart
 
-The dashboard provides an overview of placement performance through key
-metrics and visualizations, including:
-
-Total students
-
-Total companies
-
-Applications
-
-Interviews
-
-Placed students
-
-Placement rate
-
-Average package
-
-Highest package
-
-Company-wise placements
-
-Branch-wise placements
-
-2. Students
-
-The Students module provides access to student records and supports:
-
-Student record viewing
-
-Student search
-
-Branch filtering
-
-Placement-status filtering
-
-3. Companies
-
-The Companies module maintains information about recruiting
-organizations participating in the placement process.
-
-4. Applications
-
-The Applications module tracks student applications submitted to
-companies and their recruitment status.
-
-5. Interviews
-
-The Interviews module records interview-related information, including:
-
-Application
-
-Interview round
-
-Interview date
-
-Result
-
-Remarks
-
-6. Placements
-
-The Placements module stores final placement information, including:
-
-Student
-
-Company
-
-Job role
-
-Package
-
-Placement date
-
-7. Analytics
-
-The Analytics module converts stored placement records into visual and
-numerical insights.
-
-It includes:
-
-Placement KPIs
-
-Branch-wise placement analysis
-
-Company-wise placement analysis
-
-Recruitment funnel
-
-Package distribution
-
-Interview-result analysis
-
-Application-status analysis
-
-Company package analysis
-
-System Architecture
-
-                    User / Placement Admin
-                              |
-                              v
-                    Web Interface
-                 HTML + CSS + JavaScript
-                              |
-                              v
-                       Flask Backend
-                         Python
-                              |
-                              v
-                       SQL Queries
-                              |
-                              v
-                       SQLite Database
-                              |
-              +---------------+---------------+
-              |               |               |
-              v               v               v
-          Student Data    Recruitment Data  Placement Data
-                              |
-                              v
-                         Analytics
-                              |
-                              v
-                     Charts / Dashboard
-
-Database
-
-The application uses SQLite as its relational database.
-
-The major tables are:
-
-Students
-Companies
-Skills
-Applications
-Interviews
-Placements
-
-The recruitment flow can be represented as:
-
-Student
-   |
-   v
-Application
-   |
-   v
-Interview
-   |
-   v
-Placement
-   |
-   +----> Company
-
-Placement Metrics
-
-The dashboard calculates metrics from the stored database records.
-
-Placement Rate
-
+### 👨‍🎓 Student Management
+- View student records
+- Search by name or roll number
+- Filter by branch
+- Filter by placement status
+
+### 🏢 Company Management
+- View recruiting companies
+- Maintain company-related placement information
+
+### 📝 Application Tracking
+- Track student applications
+- Monitor application status
+- Connect applications with recruitment records
+
+### 🎯 Interview Tracking
+- Interview rounds
+- Interview dates
+- Interview results
+- Remarks
+- Application-based interview records
+
+### 💼 Placement Management
+- Student placement records
+- Recruiting company
+- Job role
+- Package
+- Placement date
+
+### 📈 Analytics
+- Branch-wise placements
+- Company-wise placements
+- Recruitment funnel
+- Package distribution
+- Interview-result analysis
+- Application-status analysis
+- Company package analysis
+
+---
+
+## 🧩 System Workflow
+
+```mermaid
+flowchart LR
+    A[Student Records] --> B[Applications]
+    B --> C[Interviews]
+    C --> D[Placements]
+    D --> E[Analytics Engine]
+    F[Companies] --> B
+    F --> D
+    E --> G[Dashboard]
+    E --> H[Charts & KPIs]
+```
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TB
+    U[Placement Administrator] --> UI[Web Interface]
+
+    UI --> F[Flask Application]
+    F --> Q[SQL Queries]
+    Q --> DB[(SQLite Database)]
+
+    DB --> S[Students]
+    DB --> C[Companies]
+    DB --> SK[Skills]
+    DB --> A[Applications]
+    DB --> I[Interviews]
+    DB --> P[Placements]
+
+    DB --> AN[Analytics Processing]
+    AN --> CH[Chart.js Visualizations]
+    AN --> KPI[Placement KPIs]
+```
+
+### Architecture Layers
+
+| Layer | Responsibility | Technology |
+|---|---|---|
+| Presentation | Pages, forms, tables and dashboard | HTML, CSS, JavaScript |
+| Application | Routing and business logic | Python, Flask |
+| Data | Relational storage and queries | SQLite, SQL |
+| Visualization | Charts and analytical presentation | Chart.js |
+
+---
+
+## 🗃️ Database Design
+
+The main database entities are:
+
+```text
+┌─────────────┐
+│   Students  │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Applications│
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Interviews  │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Placements  │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│  Companies  │
+└─────────────┘
+
+Skills are maintained as a separate entity for student skill information.
+```
+
+### Main Tables
+
+| Table | Purpose |
+|---|---|
+| `students` | Student information and academic/placement details |
+| `companies` | Recruiting company information |
+| `skills` | Available student skills |
+| `applications` | Student applications to companies |
+| `interviews` | Interview rounds and outcomes |
+| `placements` | Final placement records |
+
+---
+
+## 📐 Analytics & Calculations
+
+### Placement Rate
+
+The dashboard calculates placement rate using:
+
+```text
 Placement Rate =
 (Placed Students / Total Students) × 100
+```
 
-For example, with 76 placed students out of 300 students:
+For the current seeded dataset:
 
+```text
 (76 / 300) × 100 = 25.33%
+```
 
-Average Package
+### Average Package
 
-The average package is calculated from the package values of placed
-students.
+The average package is calculated from package values associated with placement records.
 
-Highest Package
+### Highest Package
 
-The highest package is obtained by finding the maximum package value
-among placement records.
+The highest package is obtained from the maximum package value stored in the placement records.
 
-Technology Stack
+### Branch-wise Analysis
 
-Frontend
+Placement records are grouped by student branch to visualize the number of placed students across branches.
 
-HTML5
+### Company-wise Analysis
 
-CSS3
+Placement records are grouped by normalized company name so that duplicate formatting does not unnecessarily create separate chart categories.
 
-JavaScript
+---
 
-Chart.js
+## 🖥️ Application Modules
 
-Backend
+```text
+                    Student Placement Analytics
+                               │
+          ┌────────────────────┼────────────────────┐
+          │                    │                    │
+          ▼                    ▼                    ▼
+      Students            Companies           Applications
+          │                    │                    │
+          └────────────────────┼────────────────────┘
+                               ▼
+                          Interviews
+                               │
+                               ▼
+                          Placements
+                               │
+                               ▼
+                           Analytics
+                               │
+                               ▼
+                           Dashboard
+```
 
-Python 3.11
+---
 
-Flask
+## 🛠️ Technology Stack
 
-Database
+### Backend
+- **Python 3.11**
+- **Flask 3.1.2**
 
-SQLite
+### Frontend
+- HTML5
+- CSS3
+- JavaScript
 
-Development Tools
+### Database
+- SQLite
 
-Visual Studio Code
+### Visualization
+- Chart.js
 
-Git
+### Development & Version Control
+- Visual Studio Code
+- Git
+- GitHub
 
-GitHub
+---
 
-Project Structure
+## 📁 Project Structure
 
-Student Placement Analytics/
+```text
+student-placement-analytics/
 │
 ├── app.py
 ├── seed_data.py
 ├── requirements.txt
 ├── .gitignore
+├── README.md
 │
 ├── static/
 │   └── style.css
@@ -293,143 +331,168 @@ Student Placement Analytics/
     ├── interviews.html
     ├── placements.html
     └── analytics.html
+```
 
-placement.db is intentionally excluded from the Git repository
-through .gitignore. The database can be recreated using
-seed_data.py.
+> `placement.db` is intentionally excluded from version control through `.gitignore`. The database is recreated/populated through `seed_data.py`.
 
-Installation and Setup
+---
 
-1. Clone the repository
+## 🚀 Getting Started
 
+### Prerequisites
+
+Make sure the system has:
+
+- Python 3.11 or compatible Python version
+- Git
+- A modern web browser
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/Naman-Choudhary-15/student-placement-analytics.git
 cd student-placement-analytics
+```
 
-2. Install dependencies
+### 2. Install dependencies
 
+```bash
 pip install -r requirements.txt
+```
 
-3. Create/populate the database
+### 3. Seed the demonstration database
 
+```bash
 python seed_data.py
+```
 
-The seed script creates/populates the project database with sample
-placement data.
+### 4. Start the Flask server
 
-4. Run the Flask application
-
+```bash
 python app.py
+```
 
-5. Open the application
+### 5. Open the application
 
-Open the following address in a browser:
+Visit:
 
+```text
 http://127.0.0.1:5000/
+```
 
-Application Routes
+---
 
-The main application sections are:
+## 🔗 Main Routes
 
-/
- /students
- /companies
- /applications
- /interviews
- /placements
- /analytics
+| Route | Module |
+|---|---|
+| `/` | Dashboard |
+| `/students` | Students |
+| `/companies` | Companies |
+| `/applications` | Applications |
+| `/interviews` | Interviews |
+| `/placements` | Placements |
+| `/analytics` | Analytics |
 
-Sample Dataset
+---
 
-The current seeded dataset contains:
+## 🧪 Testing Checklist
 
-300 students
+The current working prototype has been tested across the major application modules:
 
-20 companies
+- [x] Dashboard loads
+- [x] Students page loads
+- [x] Student search/filter functionality
+- [x] Companies page loads
+- [x] Applications page loads
+- [x] Interviews page loads
+- [x] Placements page loads
+- [x] Analytics page loads
+- [x] Branch-wise chart
+- [x] Company-wise chart
+- [x] Analytics KPIs
+- [x] Sidebar navigation
+- [x] SQLite database integration
 
-15 skills
+---
 
-1041 applications
+## 🔐 Data & Repository Notes
 
-687 interviews
+The project uses generated demonstration data for academic development and presentation.
 
-76 placements
+The local SQLite database file is excluded from Git using:
 
-These values are generated by the project's seed_data.py script and
-are intended for development, demonstration, and academic evaluation.
+```gitignore
+placement.db
+```
 
-Key Features
+This keeps the repository lightweight and allows the database to be recreated through:
 
-Centralized placement data management
+```bash
+python seed_data.py
+```
 
-Student search and filtering
+---
 
-Recruitment-company records
+## 🌱 Future Scope
 
-Application tracking
+The current project can be extended with:
 
-Interview tracking
+- 🔐 Role-based authentication
+- 👨‍💼 Placement officer and recruiter accounts
+- 📥 CSV/Excel import and export
+- 📄 Automated placement reports
+- 📊 Advanced predictive analytics
+- 👨‍🎓 Student-specific dashboards
+- 🔔 Notifications and alerts
+- ☁️ Cloud deployment
+- 🏫 Integration with institutional ERP systems
 
-Placement tracking
+---
 
-Placement-rate calculation
+## 🎓 Academic Context
 
-Average and highest package analysis
+This project was developed as part of the **Advances in Computing (ADC)** coursework.
 
-Branch-wise placement visualization
+**Course Code:** `CCSDS0302`
 
-Company-wise placement visualization
+**Domain:** Quality Education
 
-Recruitment funnel visualization
+**SDG Alignment:** **SDG 4 – Quality Education**
 
-Analytics dashboard
+The project demonstrates the practical integration of:
 
-SQLite database integration
+- Web application development
+- Python programming
+- Flask backend development
+- Relational database management
+- SQL querying
+- Data processing
+- Data visualization
+- Placement analytics
 
-Flask-based web application
+---
 
-Future Scope
+## 👥 Project Information
 
-Possible future enhancements include:
+**Project:** Student Placement Analytics Platform  
+**Course:** Advances in Computing (ADC)  
+**Course Code:** CCSDS0302  
+**Project Status:** Working Prototype  
+**Repository:** [GitHub](https://github.com/Naman-Choudhary-15/student-placement-analytics)
 
-Role-based authentication for administrators, placement officers,
-students, and recruiters
+---
 
-Import/export of placement data using CSV or Excel
+## 📄 License
 
-Automated report generation
+This project was created for **academic and educational purposes**.
 
-Advanced predictive placement analytics
+---
 
-Student-wise performance dashboards
+<div align="center">
 
-Real-time notifications
+### ⭐ Student Placement Analytics Platform
 
-Deployment to a cloud platform
+**Turning placement records into meaningful insights.**
 
-Integration with institutional ERP systems
-
-Academic Purpose
-
-This project was developed as part of the Advances in Computing
-(ADC) coursework and demonstrates the integration of:
-
-Web development
-
-Python programming
-
-Database management
-
-SQL queries
-
-Data processing
-
-Data visualization
-
-Placement analytics
-
-Project Status
-
-Status: Completed / Working Prototype
-
-The current version includes the major placement-management modules and
-an analytics dashboard backed by SQLite.
+</div>
