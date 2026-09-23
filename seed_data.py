@@ -17,6 +17,85 @@ cursor = conn.cursor()
 # Enable foreign key support
 cursor.execute("PRAGMA foreign_keys = ON")
 
+# --------------------------------------------------
+# CREATE DATABASE TABLES IF THEY DO NOT EXIST
+# --------------------------------------------------
+
+cursor.executescript("""
+
+CREATE TABLE IF NOT EXISTS students (
+    student_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    roll_no TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT,
+    phone TEXT,
+    branch TEXT,
+    batch INTEGER,
+    cgpa REAL,
+    backlogs INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS companies (
+    company_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    company_name TEXT NOT NULL,
+    industry TEXT,
+    location TEXT,
+    package_lpa REAL,
+    min_cgpa REAL,
+    job_role TEXT
+);
+
+CREATE TABLE IF NOT EXISTS skills (
+    skill_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    skill_name TEXT NOT NULL,
+    category TEXT
+);
+
+CREATE TABLE IF NOT EXISTS student_skills (
+    student_skill_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    skill_id INTEGER NOT NULL,
+    proficiency TEXT,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (skill_id) REFERENCES skills(skill_id)
+);
+
+CREATE TABLE IF NOT EXISTS applications (
+    application_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    company_id INTEGER NOT NULL,
+    application_date TEXT,
+    status TEXT,
+    current_stage TEXT,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (company_id) REFERENCES companies(company_id)
+);
+
+CREATE TABLE IF NOT EXISTS interviews (
+    interview_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    application_id INTEGER NOT NULL,
+    interview_round TEXT,
+    interview_date TEXT,
+    result TEXT,
+    remarks TEXT,
+    FOREIGN KEY (application_id) REFERENCES applications(application_id)
+);
+
+CREATE TABLE IF NOT EXISTS placements (
+    placement_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    company_id INTEGER NOT NULL,
+    application_id INTEGER NOT NULL,
+    placement_date TEXT,
+    package_lpa REAL,
+    placement_type TEXT,
+    status TEXT,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (company_id) REFERENCES companies(company_id),
+    FOREIGN KEY (application_id) REFERENCES applications(application_id)
+);
+
+""")
 
 # --------------------------------------------------
 # SAMPLE DATA
